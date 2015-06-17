@@ -1,0 +1,173 @@
+
+
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>FOTOÐRAFLAR </title> 
+<meta name="keywords" content="free css template" /> 
+<meta name="description" content=" web design" /> 
+<link href="templatemo_stylesss.css" rel="stylesheet" type="text/css" />
+
+     
+		
+	<!--  jQuery lightBox plugin -->
+    <script language="javascript" type="text/javascript">
+		function clearText(field)
+	{
+		if (field.defaultValue == field.value) field.value = '';
+		else if (field.value == '') field.value = field.defaultValue;
+	}
+	</script>
+  
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/lightbox/jquery.lightbox-0.5.js"></script>
+	<link rel="stylesheet" type="text/css" href="css/jquery.lightbox-0.5.css" media="screen" />
+
+	<script type="text/javascript">
+		$(function() {
+			$('#gallery a').lightBox();
+		});
+	</script>
+
+</head>
+<body>
+<html lang="en-US">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title></title>
+</head>
+<body>
+
+<?php
+
+include("baglanti.php");
+mysql_query("Set names 'latin5'");
+mysql_query("set character set latin5");
+mysql_query("set collation_connection= 'latin5_turkish_ci'");
+if($_POST){
+	if ($_FILES["resim"]["size"]<4096*4096){
+		if ($_FILES["resim"]["type"]=="image/jpeg" or "image/png" or "image/jpg"){
+			$aciklama=$_POST["aciklama"];
+			$dosya_adi=$_FILES["resim"]["name"];
+			//Dosyaya yeni bir isim oluþturuluyor
+			$uret=array("as","rt","ty","yu","fg");
+			$uzanti=substr($dosya_adi,-4,4);
+			$sayi_tut=rand(1,10000);
+			$yeni_ad="dosyalar/".$uret[rand(0,4)].$sayi_tut.$uzanti;
+			//Dosya yeni adýyla dosyalar klasörüne kaydedilecek
+			if (move_uploaded_file($_FILES["resim"]["tmp_name"],$yeni_ad)){
+				echo 'Dosya baþarýyla yüklendi.';
+				//Bilgiler veri tabanýna kaydedilsin
+				$sorgu=mysql_query("insert into resimler (resim, aciklama) values ('$yeni_ad',  '$aciklama')");
+				if ($sorgu){
+					echo 'Veritabanýna kaydedildi.';
+				}else{
+					echo 'Kayýt sýrasýnda hata oluþtu!';
+				}
+			}else{
+				echo 'Dosya Yüklenemedi!';
+			}
+		}else{
+			echo 'Dosya yalnýzca jpeg,png,jpg formatýnda olabilir!';
+		}
+	}else{			
+		echo 'Dosya boyutu 4 Mb ý geçemez!';
+	}
+}
+?>
+<form action="" method="post" name="form1" enctype="multipart/form-data">
+<input type="file" name="resim"/><br/>
+<input type="text" name="aciklama"/><br/>
+<input type="submit" name="gonder" value="Kaydet"/>
+</form>
+<?php
+$sorgu2=mysql_query("select * from resimler");
+if (mysql_num_rows($sorgu2)){
+	echo '<table>';
+	//Veritabanýnda resimler listeleniyor.
+	while($kayit=mysql_fetch_array($sorgu2)){
+		echo '<tr>';
+		echo '<td><img src="'.$kayit["resim"].'" width="75" height="75"/></td>';
+		echo '<td>'.$kayit["aciklama"].'</td>';
+		echo '</tr>';
+	}
+	echo '</table>';
+}
+?>
+</body>
+</html>
+<div id="templatemo_wrapper">
+	
+    <div id="templatemo_header">
+	   <h2>KAROT FOTOÐRAFLARI</h2>	
+       <div class="cleaner"></div>
+    </div> <!-- end of header -->
+    
+  
+    
+    <div id="templatemo_main">
+		<div id="page">
+			
+        <div id="gallery">
+			<ul>
+				<li>
+					
+					
+				</li>
+				<li>
+					
+				</li>
+				
+				<li>
+					
+				</li>
+				<li>
+					
+				</li>
+				
+				<li>
+					
+				</li>
+				<li>
+					
+				</li>
+				
+				<li>
+					
+				</li>
+				<li>
+					
+				</li>
+				
+				<li>
+					
+				</li>
+				
+				<li>
+					
+				</li>
+				
+				<li>
+					
+				</li>
+				
+				<li>
+					
+				</li>
+
+			</ul>
+				
+			</div>
+		
+		</div>
+	
+	    <div class="cleaner"></div>
+        
+    </div> <!-- end of templatemo_main -->
+    
+   
+
+</div> <!-- end of wrapper -->
+
+</body>
+</html>

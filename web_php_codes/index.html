@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+
+<head>
+
+    <title>Carot</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="templatemo">
+    <meta charset="UTF-8">
+
+    <link href='http://fonts.googleapis.com/css?family=Dosis:300,400,500,600,700,800' rel='stylesheet' type='text/css'>
+        
+    <!--  Custom -->
+   <link href="templatemo_styles.css" rel="stylesheet" media="screen">
+     <script type='text/javascript' src='https://www.google.com/jsapi'></script>
+     <script type='text/javascript' language="javascript">
+     google.load('visualization', '1', {'packages': ['geochart']});
+     google.setOnLoadCallback(drawChart);
+	
+
+    function drawChart() {
+	   
+      var data = new google.visualization.DataTable();
+	  data.addColumn('string', 'Lake');
+	  data.addColumn('number', 'Value:');
+      data.addColumn('string', 'url');
+	  data.addRows([
+	    ['Salda Gölü', 12, 'i.html' ],
+        ['Tuz Gölü', 12, 'i.html'],
+		['Van Gölü', 12, 'i.html' ],
+	    ['AciGöl', 12, 'i.html'],
+		['Küçükçekmece Lagünü', 12, 'gol.php']
+		
+      ]);
+	  
+	  
+	  
+	   var view = new google.visualization.DataView(data);
+      // use only the first two columns in the GeoChart
+       view.setColumns([0, 1]);
+	   
+	   var chart = new google.visualization.GeoChart(document.getElementById('chart_div'));
+	    var options = {};
+        options['region'] = 'TR';
+        options['resolution'] = 'provinces';
+		options['displayMode'] = 'markers';
+        options['width'] = 800;
+        options['height'] = 450;
+        options['colors'] = ['blue'];
+        options['legend'] = 'none';
+		
+    
+	   google.visualization.events.addListener(chart, 'select', function () {
+        var selection = chart.getSelection();
+        var row = selection[0].row;
+        var url = data.getValue(row, 2);
+        window.open(url);
+      });
+    
+        chart.draw(view, options);
+    }; 
+
+    </script>
+        
+   
+    
+    
+</head>
+<body>
+    <h1>MSKU JEOLOJİ MÜHENDİSLİĞİ GÖL ÇALIŞMASI</h1>
+    <div id="chart_div" style="width: 800px; height: 450px; margin:0px auto; background-color:grey; "></div>
+    
+
+</body>
+</html>
